@@ -1,0 +1,4 @@
+- [] analyze the file at `/data-shared/vcf_examples/luscinia_vars.vcf.gz` again
+- [] make a script for processing the task
+- [] write readme
+- [] submit solution
