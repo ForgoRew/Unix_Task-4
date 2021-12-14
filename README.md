@@ -34,3 +34,57 @@ In this task, the data is placed in `/data-shared/vcf_examples/luscinia_vars.vcf
 INPUT=/data-shared/vcf_examples/luscinia_vars.vcf.gz
 ```
 
+### Popdata file for rscript
+In order to visualize the data in R, we are going to prepare a simple .tsv file with all data needed for the visualisation
+
+##### Make a temp directory for it:
+Because we need a few files to paste into the final one, we are going to make our own temporary directory:
+```sh
+TEMPDIR=$(mktemp -d)
+```
+
+##### Prepare files
+We prepare the files by `touch` command:
+```sh
+touch popdata.tsv $TEMPDIR/indels $TEMPDIR/indel_DP $TEMPDIR/SNPs $TEMPDIR/SNP_DP
+```
+
+##### Header
+Now we put a header to our `popdata.tsv` file, the rest we will append to it.
+```sh
+echo "INDEL/SNP DP" > popdata.tsv
+```
+It is clear, that in first column it is stored, if the variant is INDEL or SNP and in the depth of read is in the second column.
+
+##### Preparing files for paste to popdata.tsv
+Now we prepare subfiles of data to be put into the `popdata.tsv` file.
+We process the INDELs first - `indels` contains n lines with "INDEL" string, where n is number of INDEL variants. The `indel_DP` contains DPs of the variants.
+```sh
+<$INPUT zcat | grep -v "#" | cut -f8 | grep -o "INDEL" >> $TEMPDIR/indels # 99537 lines
+<$INPUT zcat | grep -v "#" | cut -f8 | grep "INDEL" | grep -o "DP=[0-9]*;" | grep -o "[0-9]*" >> $TEMPDIR/indel_DP
+```
+The SNPs are processed similarly, only we choose inverse selection in `grep` and we must make the `SNPs` file more difficultly, because there is no "SNP" string in SNP rows. Similarly as for INDELs, the `SNP_DP` file contains DPs for SNP variants.
+```sh 
+for i in $( seq $( <$INPUT zcat | grep -v "#" | cut -f8 | grep -v "INDEL" | wc -l ) )
+do
+echo "SNP" >> $TEMPDIR/SNPs # 354671 lines
+done
+<$INPUT zcat | grep -v "#" | cut -f8 | grep -v "INDEL" | grep -o "DP=[0-9]*;" | grep -o "[0-9]*" >> $TEMPDIR/SNP_DP
+```sh
+
+##### Paste data for INDELs
+Finally, now we append pasted data we made in prewious steps to the `popdata.tsv` file which will be now prepared for R.
+```sh
+paste $TEMPDIR/indels $TEMPDIR/indel_DP >> popdata.tsv
+paste $TEMPDIR/SNPs $TEMPDIR/SNP_DP >> popdata.tsv
+```
+
+##### Clean the $TEMPDIR
+We must clean also the `$TEMPDIR` after ourselves:
+```sh 
+rm -rf $TEMPDIR
+```
+
+
+
+
