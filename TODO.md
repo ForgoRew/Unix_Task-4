@@ -1,10 +1,10 @@
-- [] analyze the file at `/data-shared/vcf_examples/luscinia_vars.vcf.gz`
+- [x] analyze the file at `/data-shared/vcf_examples/luscinia_vars.vcf.gz`
 - - [x] look at the file format
-- [] make a script for processing the task
+- [x] make a script for processing the task
 - - [x] get read depth
 - - [x] get INDELs (Insertions, deletions)
 - - [x] get SNPs (variations)
-- - [] prepare the files for R processing
+- - [x] prepare the files for R processing
 - [] make an R script for visualisation of the solution
 - [] write readme
 - [] submit solution

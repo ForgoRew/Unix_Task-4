@@ -1,7 +1,7 @@
 INPUT=/data-shared/vcf_examples/luscinia_vars.vcf.gz
 
 # Show DPs
-<$INPUT zcat | grep -v "#" | cut -f8 | grep -o "DP=[0-9]*;" | grep -o "[0-9]*" | less
+#<$INPUT zcat | grep -v "#" | cut -f8 | grep -o "DP=[0-9]*;" | grep -o "[0-9]*" | less
 
 
 # Make a new file for data for R script
