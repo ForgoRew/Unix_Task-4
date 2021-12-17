@@ -34,6 +34,14 @@ In this task, the data is placed in `/data-shared/vcf_examples/luscinia_vars.vcf
 INPUT=/data-shared/vcf_examples/luscinia_vars.vcf.gz
 ```
 
+### workflow.sh
+In next paragraphs I describe, what's going on with the code so you can make it step by step or you can choose to have prepared the file for analyzis instantly.
+If you chose the second option, just copy-paste the code for this paragraph. It makes a data/popdata.tsv file for you, which is processible by rscript.R in project directory.
+```sh
+chmod +x workflow.sh
+./workflow.sh
+```
+
 ### Popdata file for rscript
 In order to visualize the data in R, we are going to prepare a simple .tsv file with all data needed for the visualisation
 
@@ -46,13 +54,13 @@ TEMPDIR=$(mktemp -d)
 ##### Prepare files
 We prepare the files by `touch` command:
 ```sh
-touch popdata.tsv $TEMPDIR/indels $TEMPDIR/indel_DP $TEMPDIR/SNPs $TEMPDIR/SNP_DP
+touch data/popdata.tsv $TEMPDIR/indels $TEMPDIR/indel_DP $TEMPDIR/SNPs $TEMPDIR/SNP_DP
 ```
 
 ##### Header
 Now we put a header to our `popdata.tsv` file, the rest we will append to it.
 ```sh
-echo "INDEL/SNP DP" > popdata.tsv
+echo "TYPE DP" > data/popdata.tsv
 ```
 It is clear, that in first column it is stored, if the variant is INDEL or SNP and in the depth of read is in the second column.
 
@@ -70,13 +78,13 @@ do
 echo "SNP" >> $TEMPDIR/SNPs # 354671 lines
 done
 <$INPUT zcat | grep -v "#" | cut -f8 | grep -v "INDEL" | grep -o "DP=[0-9]*;" | grep -o "[0-9]*" >> $TEMPDIR/SNP_DP
-```sh
+```
 
-##### Paste data for INDELs
+##### Paste data to popdata.tsv
 Finally, now we append pasted data we made in prewious steps to the `popdata.tsv` file which will be now prepared for R.
 ```sh
-paste $TEMPDIR/indels $TEMPDIR/indel_DP >> popdata.tsv
-paste $TEMPDIR/SNPs $TEMPDIR/SNP_DP >> popdata.tsv
+paste $TEMPDIR/indels $TEMPDIR/indel_DP >> data/popdata.tsv
+paste $TEMPDIR/SNPs $TEMPDIR/SNP_DP >> data/popdata.tsv
 ```
 
 ##### Clean the $TEMPDIR
@@ -84,7 +92,3 @@ We must clean also the `$TEMPDIR` after ourselves:
 ```sh 
 rm -rf $TEMPDIR
 ```
-
-
-
-
