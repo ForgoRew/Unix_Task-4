@@ -4,6 +4,14 @@ Repository for processing and submitting of task 4 -- the final task of course o
 ### Description of the task
 > Distribution of read depth (DP) qualities INDELS vs. SNPs
 
+### workflow.sh
+In next paragraphs I describe, what's going on with the code so you can make it step by step or you can choose to have prepared the file for analyzis instantly.
+If you chose the second option, just copy-paste the code for this paragraph. It makes a data/popdata.tsv file for you, which is processible by rscript.R in project directory.
+```sh
+chmod +x workflow.sh
+./workflow.sh
+```
+
 ### Note:
 In this case the data are stored in .gz file, so I use `zcat` for getting the plain text instead of `cat` as is usual.
 
@@ -32,14 +40,6 @@ We can get the depths by this command:
 In this task, the data is placed in `/data-shared/vcf_examples/luscinia_vars.vcf.gz`, so I make a variable for that.
 ```sh
 INPUT=/data-shared/vcf_examples/luscinia_vars.vcf.gz
-```
-
-### workflow.sh
-In next paragraphs I describe, what's going on with the code so you can make it step by step or you can choose to have prepared the file for analyzis instantly.
-If you chose the second option, just copy-paste the code for this paragraph. It makes a data/popdata.tsv file for you, which is processible by rscript.R in project directory.
-```sh
-chmod +x workflow.sh
-./workflow.sh
 ```
 
 ### Popdata file for rscript
