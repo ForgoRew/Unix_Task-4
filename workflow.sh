@@ -4,7 +4,8 @@ INPUT=/data-shared/vcf_examples/luscinia_vars.vcf.gz
 #<$INPUT zcat | grep -v "#" | cut -f8 | grep -o "DP=[0-9]*;" | grep -o "[0-9]*" | less
 
 
-# Make a new file for data for R script
+# Make a new file for data for R script visualisation
+mkdir -p data
 
 ## Make a temp directory for it:
 TEMPDIR=$(mktemp -d)

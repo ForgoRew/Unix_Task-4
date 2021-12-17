@@ -44,6 +44,10 @@ chmod +x workflow.sh
 
 ### Popdata file for rscript
 In order to visualize the data in R, we are going to prepare a simple .tsv file with all data needed for the visualisation
+We will make a `data` directory for it.
+```sh
+mkdir -p data
+```
 
 ##### Make a temp directory for it:
 Because we need a few files to paste into the final one, we are going to make our own temporary directory:
