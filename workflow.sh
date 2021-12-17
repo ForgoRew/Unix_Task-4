@@ -14,7 +14,7 @@ TEMPDIR=$(mktemp -d)
 touch data/popdata.tsv $TEMPDIR/indels $TEMPDIR/indel_DP $TEMPDIR/SNPs $TEMPDIR/SNP_DP
 
 ## Header
-echo "INDEL/SNP	DP" > data/popdata.tsv
+echo "TYPE	DP" > data/popdata.tsv
 
 ## Preparing files for paste to popdata.tsv
 <$INPUT zcat | grep -v "#" | cut -f8 | grep -o "INDEL" >> $TEMPDIR/indels # 99537 lines

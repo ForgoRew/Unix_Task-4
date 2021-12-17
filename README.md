@@ -4,14 +4,6 @@ Repository for processing and submitting of task 4 -- the final task of course o
 ### Description of the task
 > Distribution of read depth (DP) qualities INDELS vs. SNPs
 
-### workflow.sh
-In next paragraphs I describe, what's going on with the code so you can make it step by step or you can choose to have prepared the file for analyzis instantly.
-If you chose the second option, just copy-paste the code for this paragraph. It makes a data/popdata.tsv file for you, which is processible by rscript.R in project directory.
-```sh
-chmod +x workflow.sh
-./workflow.sh
-```
-
 ### Note:
 In this case the data are stored in .gz file, so I use `zcat` for getting the plain text instead of `cat` as is usual.
 
@@ -40,6 +32,14 @@ We can get the depths by this command:
 In this task, the data is placed in `/data-shared/vcf_examples/luscinia_vars.vcf.gz`, so I make a variable for that.
 ```sh
 INPUT=/data-shared/vcf_examples/luscinia_vars.vcf.gz
+```
+
+### workflow.sh
+In next paragraphs I describe, what's going on with the code so you can make it step by step or you can choose to have prepared the file for analyzis instantly.
+If you chose the second option, just copy-paste the code for this paragraph. It makes a data/popdata.tsv file for you, which is processible by rscript.R in project directory.
+```sh
+chmod +x workflow.sh
+./workflow.sh
 ```
 
 ### Popdata file for rscript
@@ -96,3 +96,40 @@ We must clean also the `$TEMPDIR` after ourselves:
 ```sh 
 rm -rf $TEMPDIR
 ```
+
+### Rstudio visualisation
+To get human readible and usefull information, we will use Rstudio to make a plot from our data.
+Everything from here is in `rscript.R` in project repository.
+
+At first we must set our working directory, assuming that you cloned the repository to `~/projects/` folder. If not, change this path so it leads to the project repository then.
+```r
+setwd('~/projects/Unix_Task-4')
+```
+We are going to use the `tidyverse` library so we have to import it.
+```r
+library(tidyverse)
+```
+And the data produced in prewious steps we store into `d`.
+```r
+read_tsv('data/popdata.tsv') -> d
+```
+
+##### Making the plot
+I put there two options to be used. Both are usefull but they have different pros and cons. The first is non-logarithmic histogram, but the data are quite high density on the left, so it is not so clear. However it is clear exactly how the DP is high.
+```r
+# DP non logarithmic
+ggplot(d, aes(x=DP, fill=TYPE)) + geom_histogram(binwidth=.5, alpha=.5, position="identity")
+```
+The second one is logarithmic, so it shows nicer distribution, but you must note, that the DP is in logarithm.
+```r
+# DP logarithmic
+ggplot(d, aes(x=log(DP), fill=TYPE)) +
+  geom_histogram(binwidth=.5, alpha=.5, position="identity")
+```
+
+Both these graphs show you how many records of each INDEL/SNP is in the example.
+
+### Credits
+Thank you Vaclav Janousek and Libor Morkovsky for this course so I could (quite easily) make this task.
+Thank you very much!
+🔥🔥🔥
