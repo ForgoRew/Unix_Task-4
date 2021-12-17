@@ -26,7 +26,6 @@ We can get the depths by this command:
 ```sh
 <$INPUT zcat | grep -v "#" | cut -f8 | grep -o "DP=[0-9]*;" | grep -o "[0-9]*" | less
 ```
-🔥🔥🔥
 
 ### Getting the data
 In this task, the data is placed in `/data-shared/vcf_examples/luscinia_vars.vcf.gz`, so I make a variable for that.
@@ -132,4 +131,3 @@ Both these graphs show you how many records of each INDEL/SNP is in the example.
 ### Credits
 Thank you Vaclav Janousek and Libor Morkovsky for this course so I could (quite easily) make this task.
 Thank you very much!
-🔥🔥🔥
