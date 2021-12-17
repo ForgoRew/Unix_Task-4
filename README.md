@@ -62,10 +62,10 @@ Now we put a header to our `popdata.tsv` file, the rest we will append to it.
 ```sh
 echo "TYPE DP" > data/popdata.tsv
 ```
-It is clear, that in first column it is stored, if the variant is INDEL or SNP and in the depth of read is in the second column.
+It is clear, that in first column it is stored, if the variant is INDEL or SNP and the depth of read is in the second column.
 
 ##### Preparing files for paste to popdata.tsv
-Now we prepare subfiles of data to be put into the `popdata.tsv` file.
+Now we prepare temporary files of data to be put into the `popdata.tsv` file.
 We process the INDELs first - `indels` contains n lines with "INDEL" string, where n is number of INDEL variants. The `indel_DP` contains DPs of the variants.
 ```sh
 <$INPUT zcat | grep -v "#" | cut -f8 | grep -o "INDEL" >> $TEMPDIR/indels # 99537 lines
